@@ -1,0 +1,12 @@
+Given the different data types of our features, we need to take a different approach to visually exploring the relationships.
+For example, using our numeric columns, we can calculate the correlations between potential features and our target, but correlations won’t be calculated for non-numeric columns. This will be addressed further below.
+Below, I’ve calculated the pairwise correlation between all of the numeric variables in the data frame and our target, sale price. Pandas’ corrwith() method will return a pair-wise correlation for each numeric variable with the target and ignore non-numeric columns.
+
+
+
+correlations = train.corrwith(train['saleprice']).iloc[:-1].to_frame()
+correlations['abs'] = correlations[0].abs()
+sorted_correlations = correlations.sort_values('abs', ascending=False)[0]
+fig, ax = plt.subplots(figsize=(10,20))
+sns.heatmap(sorted_correlations.to_frame(), cmap='coolwarm', annot=True, vmin=-1, vmax=1, ax=ax);
+
